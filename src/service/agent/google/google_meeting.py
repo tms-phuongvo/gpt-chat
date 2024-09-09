@@ -100,9 +100,9 @@ def booking_meeting_tool(summary: str, email: list[str], date: str, time: str) -
     Make sure to validate the information before asking the next question.
 
     Args:
-        summary: Meeting summary
-        email: List email of attendees
-        date: Date of the meeting with format dd/mm/yyyy
-        time: Dime of the meeting with format hh:mm
+        summary: Meeting summary required user input
+        email: List email of attendees required user input
+        date: Date of the meeting with format dd/mm/yyyy required user input
+        time: Dime of the meeting with format hh:mm required user input
     """
     return f"Booking meeting with google for {summary} based on {date} and {time}"
