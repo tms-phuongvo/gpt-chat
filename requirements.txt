@@ -1,0 +1,21 @@
+streamlit==1.37.1
+streamlit-chat==0.1.1
+langchain==0.2.14
+langchain-openai==0.1.22
+langchain-anthropic==0.1.23
+pandas==2.2.2
+streamlit-js-eval==0.1.7
+
+google-api-python-client==2.143.0
+google-auth-oauthlib==1.2.1
+google-auth-httplib2==0.2.0
+
+# Matching
+pillow==10.4.0
+faiss-cpu==1.8.0.post1
+opencv-python==4.10.0.84
+langchain-community==0.2.12
+
+# Embedding
+torch==2.2.2
+transformers==4.44.2
