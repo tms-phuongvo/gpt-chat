@@ -148,6 +148,7 @@ def _exec_tools(name: str, **kwargs) -> str:
             st.session_state.location["coords"]["longitude"],
         )
         json = agent.get_place_restaurant(lat, long, **kwargs)
+
         llm_messages = [
             SystemMessage(
                 prompt.RESTAURANT_AI.format(
@@ -155,7 +156,8 @@ def _exec_tools(name: str, **kwargs) -> str:
                     meals=kwargs["meals"],
                     restaurant=json,
                 )
-            )
+            ),
+            HumanMessage(list(st.session_state.messages)[-1]["content"]),
         ]
         output: AIMessage = client.chatCompletion(message=llm_messages)
         return output.content

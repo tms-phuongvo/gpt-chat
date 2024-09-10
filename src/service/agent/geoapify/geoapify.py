@@ -18,7 +18,9 @@ class GeoPlaces:
             "apiKey": self.api_key,
             "limit": 20,
         }
+        print(params)
         response = requests.get(self.URL, params=params)
+        print(response.json())
         return response.json()
 
 
@@ -29,7 +31,7 @@ def get_restaurant_tool(meals: str, radius: int):
     User need select meals and radius for restaurant type and place
 
     Args:
-    meals: breakfast, lunch or dinner user need select it
-    radius: Radius around current location in km user need select it
+    meals: breakfast, lunch or dinner required user input
+    radius: Radius around current location in km required user input
     """
     return ""
