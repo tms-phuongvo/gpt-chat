@@ -15,10 +15,11 @@ from src.service.agent.coin_market_cap.coin_market_cap import (
     CoinMarketCap,
     get_coin_tool,
 )
+from src.service.agent.form.form import get_contact_inform, search_product
 from src.service.prompt import prompt
 from src.service.llm.openai import OpenAIService
 from src.service.llm.model import get_model
-from src.utils.constant import OPEN_AI_MODELS, WEATHER_HTML
+from src.utils.constant import CONTACT_FORM, OPEN_AI_MODELS, WEATHER_HTML
 
 st.set_page_config(page_title="💬 OpenAI Chatbot")
 
@@ -53,7 +54,7 @@ def clear_chat_history():
 
 
 def get_active_tools():
-    tools = []
+    tools = [get_contact_inform, search_product]
     if st.session_state.google_meeting:
         tools.append(booking_meeting_tool)
     if st.session_state.open_weather:
@@ -169,6 +170,10 @@ def _exec_tools(name: str, **kwargs) -> str:
             return f"Symbol {symbol} not found"
         print(json)
         return agent.convert_markdown(json["data"][kwargs["symbol"]][0])
+    elif name == "get_contact_inform":
+        return CONTACT_FORM
+    elif name == "search_product":
+        pass
 
 
 prepare_state()
