@@ -8,7 +8,11 @@ from streamlit.components.v1 import html
 from streamlit_js_eval import get_geolocation
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage, BaseMessage
 
-from src.service.agent.open_weather.weather import OpenWeather, get_weather_tool
+from src.service.agent.open_weather.weather import (
+    OpenWeather,
+    get_weather_current_location_tool,
+    get_weather_other_location_tool,
+)
 from src.service.agent.google.google_meeting import GoogleMeeting, booking_meeting_tool
 from src.service.agent.geoapify.geoapify import GeoPlaces, get_restaurant_tool
 from src.service.agent.coin_market_cap.coin_market_cap import (
@@ -61,7 +65,8 @@ def get_active_tools():
     if st.session_state.google_meeting:
         tools.append(booking_meeting_tool)
     if st.session_state.open_weather:
-        tools.append(get_weather_tool)
+        tools.append(get_weather_current_location_tool)
+        tools.append(get_weather_other_location_tool)
     if st.session_state.restaurant:
         tools.append(get_restaurant_tool)
     if st.session_state.coin:
@@ -133,7 +138,7 @@ def _exec_tools(name: str, **kwargs) -> str:
             **_filter_kwargs(tool_func=agent.booking_meeting, **kwargs)
         )
         return "I have been created google meeting for you. Link: " + url
-    elif name == "get_weather_tool":
+    elif name == "get_weather_current_location_tool":
         agent = OpenWeather(st.secrets["OPEN_WEATHER_API_KEY"])
         if st.session_state.location is None:
             return "Please accept location permission"
@@ -142,6 +147,17 @@ def _exec_tools(name: str, **kwargs) -> str:
             st.session_state.location["coords"]["latitude"],
             st.session_state.location["coords"]["longitude"],
         )
+        weather = agent.get_weather(lat, long)
+        return agent.convert_markdown(weather)
+    elif name == "get_weather_other_location_tool":
+        agent = OpenWeather(st.secrets["OPEN_WEATHER_API_KEY"])
+        if st.session_state.location is None:
+            return "Please accept location permission"
+        location = agent.get_location_from_address(address=kwargs["address"])
+        if len(location) == 0 or location is None:
+            return "No results found"
+        lat = location[0]["lat"]
+        long = location[0]["lon"]
         weather = agent.get_weather(lat, long)
         return agent.convert_markdown(weather)
     elif name == "get_restaurant_tool":
@@ -168,14 +184,12 @@ def _exec_tools(name: str, **kwargs) -> str:
         return output.content
     elif name == "get_coin_tool":
         symbol = kwargs["symbol"]
-        print(symbol)
         agent = CoinMarketCap(st.secrets["COIN_MARKET_CAP_API_KEY"])
         json = agent.get_crypto_currency(
             **_filter_kwargs(tool_func=agent.get_crypto_currency, **kwargs)
         )
         if json["data"][symbol][0] is None:
             return f"Symbol {symbol} not found"
-        print(json)
         return agent.convert_markdown(json["data"][kwargs["symbol"]][0])
     elif name == "get_contact_inform":
         return CONTACT_FORM

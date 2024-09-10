@@ -233,7 +233,7 @@ CONTACT_FORM = """<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Input Form</title>
+    <title>Contact Us Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -252,7 +252,7 @@ CONTACT_FORM = """<!DOCTYPE html>
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             width: 600px;
-            max-width: 100%; /* Đảm bảo responsive trên màn hình nhỏ */
+            max-width: 100%;
         }
 
         .form-container h2 {
@@ -301,7 +301,7 @@ CONTACT_FORM = """<!DOCTYPE html>
 <body>
 
 <div class="form-container">
-    <h2>User Information</h2>
+    <h2>Contact Us Information</h2>
     <form action="#">
         <div class="form-group">
             <label for="first-name">First Name</label>
