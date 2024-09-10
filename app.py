@@ -41,6 +41,9 @@ def prepare_state():
     if "coin" not in st.session_state.keys():
         st.session_state.coin = True
 
+    if "contact_form" not in st.session_state.keys():
+        st.session_state.contact_form = True
+
     if "location" not in st.session_state.keys():
         st.session_state.location = None
 
@@ -54,7 +57,7 @@ def clear_chat_history():
 
 
 def get_active_tools():
-    tools = [get_contact_inform, search_product]
+    tools = [search_product]
     if st.session_state.google_meeting:
         tools.append(booking_meeting_tool)
     if st.session_state.open_weather:
@@ -63,6 +66,8 @@ def get_active_tools():
         tools.append(get_restaurant_tool)
     if st.session_state.coin:
         tools.append(get_coin_tool)
+    if st.session_state.contact_form:
+        tools.append(get_contact_inform)
     return tools
 
 
@@ -223,6 +228,7 @@ with st.sidebar:
     open_weather = st.checkbox("Weather", value=True, key="open_weather")
     restaurant = st.checkbox("Restaurant", value=True, key="restaurant")
     coin = st.checkbox("Coin Market Cap", value=True, key="coin")
+    contact_form = st.checkbox("Show contact form", value=True, key="contact_form")
 
     configuration = {
         **model,

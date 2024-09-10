@@ -18,9 +18,7 @@ class GeoPlaces:
             "apiKey": self.api_key,
             "limit": 20,
         }
-        print(params)
         response = requests.get(self.URL, params=params)
-        print(response.json())
         return response.json()
 
 
